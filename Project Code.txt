@@ -1,0 +1,30 @@
+#include "DHT.h"
+#define DHTPIN 2 // Digital pin connected to the DHT sensor
+#define DHTTYPE DHT11 // Change this to the appropriate DHT sensor type
+DHT dht(DHTPIN, DHTTYPE);
+void setup() {
+Serial.begin(9600);
+Serial.println(F("DHTxx test!"));
+dht.begin();
+}
+void loop() {
+// Simulate random humidity and temperature values
+float randomHumidity = random(0, 101); // Random value between 0 and 100
+float randomTemperature = random(-10, 40); // Random value between -10°C and
+40°C
+// Compute heat index based on the random temperature and humidity values
+float hif = dht.computeHeatIndex(randomTemperature, randomHumidity);
+float hic = dht.computeHeatIndex(randomTemperature, randomHumidity, false);
+Serial.print(F("Simulated Humidity: "));
+Serial.print(randomHumidity);
+Serial.print(F("% Simulated Temperature: "));
+Serial.print(randomTemperature);
+Serial.print(F("°C "));
+Serial.print((randomTemperature * 9/5) + 32); // Convert to °F
+Serial.print(F("°F Simulated Heat index: "));
+Serial.print(hic);
+Serial.print(F("°C "));
+Serial.print(hif);
+Serial.println(F("°F"));
+delay(2000); // Wait for a few seconds before the next reading
+}
